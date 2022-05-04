@@ -1,5 +1,6 @@
 # bp-Heartbleed-attack-game
 Repozitár obsahuje všetky potrebné súbory pre spustenie bezpečnostnej hry typu Capture the Flag (Attack-only) k bakalárskej práci Bezpečnosť protokolu SSL/TLS. Hra demonštruje závažnosť chyby Heartbleed. Virtuálne prostredie bude zahŕňať tri stroje - počítač útočníka, používateľa (IP adresa 10.11.30.4) a server (IP adresa 10.11.30.3). Stroje sú usporiadané podľa topológie v súbore **attack_topology.png** a vybavené operačnými systémemi Kali Linux a Ubuntu. Cieľový stroj disponuje zraniteľnou verziou knižnice OpenSSL 1.0.1.
+![Topológia](https://github.com/dorota-fiit/bp-Heartbleed-attack-game/blob/main/attack_topology.png)
 ## Zraniteľnosť Heartbleed 
 Heartbleed je implementačná chyba SSL/TLS heartbeat rozšírenia v rámci OpenSSL a umožňuje útočníkovi získavať dáta zo vzdialeného servera, pričom ukradnuté dáta môžu zahŕňať napríklad používateľské mená, heslá alebo platobné údaje. SSL/TLS protokol slúži na vytvorenie bezpečného komunikačného kanálu medzi aplikáciami. Kvôli výpočtovým postupom ako šifrovanie a dešifrovanie verejného kľúča alebo výmena kľúčov je vytvorenie nového kanálu pomerne nákladné. Aj napriek tomu, ak server a klient nekomunikujú, kanál medzi nimi sa po určitom čase preruší a spojenie musí byť pri ďalšej komunikácii opätovne nadviazané. S cieľom minimalizovať náklady bolo implementované riešenie prostredníctvom rozšírenia heartbeat.  Heartbeat poskytuje nový protokol implementujúci keep-alive funkcionalitu protokolu SSL/TLS.
 
@@ -17,34 +18,44 @@ Jednoduchým riešením je reštartovanie stroja. Po reštartovaní sa však obn
 #### Server sa pri vytváraní zasekne na hláške "Configuring and enabling network interfaces..."
 V takomto prípade odporúčam zastaviť vytváranie stroja kombináciou klávesov <kbd>Ctrl</kbd>+<kbd>C</kbd> a vypnutím stroja vo VirtualBoxe. Následne zadajte do terminálu príkaz `vagrant global-status` a skopírujte id vytváraného stroja. Stroj zničíte následným zadaním príkazov `vagrant halt id` a `vagrant destroy id`, pri čom za id dosaďte priamo skopírované id servera. Server nanovo vytvorte príkazom `vagrant up` v rámci priečinku **vagrant_server**. 
 ## Riešenie
-1. Do počítača útočníka sa prihláste pomocou mena "kali" a hesla "kali". 
-2. Zapnite terminál a prejdite do priečinka **home/kali**
-`cd /home/kali` 
+1. Do počítača útočníka sa prihláste pomocou mena "kali" a hesla "kali".
+2. Zapnite terminál a prejdite do priečinka **home/kali**.\
+`cd /home/kali`
 3. Otvorte súbor **attack.py** a nájdite príkaz na odoslanie žiadosti `HeartbeatRequest` na zraniteľný server. Skúste žiadosť odoslať.
-  <details>
-    <summary>Nápoveda</summary>
-    `./attack.py www.heartbleedlabelgg.com`
-  </details>
+
+    <details>
+      <summary>Nápoveda</summary>
+        `./attack.py www.heartbleedlabelgg.com`
+    </details>
+  
 4. Odoslanie neprebehne keďže súbor nie je vykonateľný. Zmeňte teda súbor **attack.py** na vykonateľný. 
-  <details>
-    <summary>Nápoveda</summary>
-    `sudo chmod +x attack.py`
-  </details>
+  
+    <details>
+      <summary>Nápoveda</summary>
+      `sudo chmod +x attack.py`
+    </details>
+  
 5. Znova odošlite škodlivý kód v podobe `HeartbeatRequest` na zraniteľný server.
-  <details>
-    <summary>Nápoveda</summary>
-    `./attack.py www.heartbleedlabelgg.com`
-  </details>
+ 
+   <details>
+      <summary>Nápoveda</summary>
+      `./attack.py www.heartbleedlabelgg.com`
+    </details>
+  
 6. V tomto momente vidíte v termináli vypísané informácie a obsah odpovede. Informácie obsahujú hlášku "Server processed malformed heartbeat, but did not return any extra data.". Na základe tohto zistenia je potrebné upraviť hodnotu zapísanú v poli veľkosti obsahu. Otvorte teda súbor **attack.py**, prejdite si znova kód, nájdite prepínač na zmenu dĺžky odpovede a jeho predvolenú hodnotu. 
-  <details>
-    <summary>Nápoveda</summary>
-    Prepínače na zmenu dĺžky odpovede sú -l alebo --length. Ich predvolená veľkosť je 0x16.
-  </details>
+ 
+   <details>
+      <summary>Nápoveda</summary>
+      Prepínače na zmenu dĺžky odpovede sú -l alebo --length. Ich predvolená veľkosť je 0x16.
+    </details>
+  
 7. Zmente dĺžku obsahu odpovede a skúste odoslať žiadosť na zraniteľný server. Odosielanie opakujte až kým nezískate osobné údaje používateľa (vrátane vlajky).
-  <details>
-    <summary>Nápoveda</summary>
-    Prvou možnosťou je zmena default hodnoty priamo v kóde. Druhou možnosťou je obmienanie dĺžky pomocou prepínačov `-l` a `--length` priamo v termináli. Skúste odoslať žiadosť na zraniteľný server napríklad príkazom `./attack.py www.heartbleedlabelgg.com -l 0x4000`. 
-  </details>
+
+    <details>
+        <summary>Nápoveda</summary>
+        Prvou možnosťou je zmena default hodnoty priamo v kóde. Druhou možnosťou je obmienanie dĺžky pomocou prepínačov `-l` a `--length` priamo v termináli. Skúste           odoslať žiadosť na zraniteľný server napríklad príkazom `./attack.py www.heartbleedlabelgg.com -l 0x4000`. 
+      </details>
+  
 ## Zdroje
 https://web.ecs.syr.edu/~wedu/seed/Labs_12.04/Networking/Heartbleed/
 
