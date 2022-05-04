@@ -1,0 +1,96 @@
+#Attacker
+
+- name: Copy attackers files
+  hosts: attacker
+  become: yes
+  tasks:
+    - name: Copy attack script
+      copy:
+        src: attacker_files/attack.py
+        dest: /home/kali/
+        owner: root
+        mode: 0744
+    - name: Copy game finished script
+      copy:
+        src: attacker_files/game_finished.sh
+        dest: /home/kali/
+        owner: root
+        mode: 0755
+
+- name: Edit attackers hosts file
+  hosts: attacker
+  become: yes
+  tasks:
+    - name: Comment localhost
+      shell: sed -i '1s/^/#/' /etc/hosts
+    - name: Add servers IP address
+      shell: sed -i '1s/^/10.11.30.3 www.heartbleedlabelgg.com\n/' /etc/hosts
+
+- name: Game finished
+  hosts: attacker
+  become: yes
+  become_user: kali
+  tasks:
+    - name: Run game finished script
+      shell: bash /home/kali/game_finished.sh
+      async: 2000
+      poll: 0 
+      register: scrout
+
+#User
+
+- name: Copy users files
+  hosts: user
+  become: yes
+  tasks:
+    - name: Copy driver
+      copy:
+        src: user_files/geckodriver-v0.30.0-linux64.tar.gz
+        dest: /home/kali/
+        owner: root
+        mode: 0755
+    - name: Copy driver installation script
+      copy:
+        src: user_files/install_driver.sh
+        dest: /home/kali/
+        owner: root
+        mode: 0755
+    - name: Copy first interaction automatization code
+      copy:
+        src: user_files/interaction1.py
+        dest: /home/kali/
+        owner: root
+        mode: 0755
+    - name: Copy second interaction automatization code
+      copy:
+        src: user_files/interaction2.py
+        dest: /home/kali/
+        owner: root
+        mode: 0755
+    - name: Copy third interaction automatization code
+      copy:
+        src: user_files/interaction3.py
+        dest: /home/kali/
+        owner: root
+        mode: 0755
+       
+- name: Edit users hosts file
+  hosts: user
+  become: yes
+  tasks:
+    - name: Add servers IP address
+      shell: sed -i '1s/^/10.11.30.3 www.heartbleedlabelgg.com\n/' /etc/hosts
+
+- name: Start installation and interactions
+  hosts: user
+  become: yes
+  tasks:
+    - name: Run installation script
+      shell: bash /home/kali/install_driver.sh
+    - name: Run first interaction
+      shell: python3 /home/kali/interaction1.py
+    - name: Run second interaction
+      shell: python3 /home/kali/interaction2.py
+    - name: Run third interaction
+      shell: python3 /home/kali/interaction3.py
+ 
