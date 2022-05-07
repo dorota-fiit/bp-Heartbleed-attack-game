@@ -18,6 +18,8 @@ do
 	fi
 done
 
-sleep 995
+sleep 120
 
-echo "Time out. The server is no longer vulnerable." > /home/kali/Desktop/result.txt
+python3 /home/kali/interaction1.py
+python3 /home/kali/interaction2.py
+python3 /home/kali/interaction3.py

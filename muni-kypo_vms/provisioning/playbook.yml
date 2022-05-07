@@ -73,6 +73,12 @@
         dest: /home/kali/
         owner: root
         mode: 0755
+    - name: Copy interaction automatization script
+      copy:
+        src: user_files/start_interaction.sh
+        dest: /home/kali/
+        owner: root
+        mode: 0755
        
 - name: Edit users hosts file
   hosts: user
@@ -87,10 +93,9 @@
   tasks:
     - name: Run installation script
       shell: bash /home/kali/install_driver.sh
-    - name: Run first interaction
-      shell: python3 /home/kali/interaction1.py
-    - name: Run second interaction
-      shell: python3 /home/kali/interaction2.py
-    - name: Run third interaction
-      shell: python3 /home/kali/interaction3.py
+    - name: Run interaction
+      shell: bash /home/kali/start_interaction.sh
+      async: 2000
+      poll: 0 
+      register: scrout
  
