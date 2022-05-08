@@ -2,7 +2,7 @@
 Repozitár obsahuje všetky potrebné súbory pre spustenie bezpečnostnej hry typu Capture the Flag (Attack-only) k bakalárskej práci Bezpečnosť protokolu SSL/TLS. Hra demonštruje závažnosť chyby Heartbleed. Virtuálne prostredie bude zahŕňať tri stroje - počítač útočníka (IP adresa 10.11.30.2), používateľa (IP adresa 10.11.30.4) a server (IP adresa 10.11.30.3). Stroje sú usporiadané podľa topológie v súbore **attack_topology.png** a vybavené operačnými systémemi Kali Linux a Ubuntu. Cieľový stroj disponuje zraniteľnou verziou knižnice OpenSSL 1.0.1.
 
 <p align="center">
-  <img src="https://github.com/dorota-fiit/bp-Heartbleed-attack-game/blob/main/attack_topology.png" width="420">
+  <img src="https://github.com/dorota-fiit/bp-Heartbleed-attack-game/blob/main/attack_topology.png" width="420px">
 </p>
 
 ## Zraniteľnosť Heartbleed 
@@ -11,7 +11,7 @@ Heartbleed je implementačná chyba SSL/TLS heartbeat rozšírenia v rámci Open
 Prvým krokom v rámci tejto funkcionality je odoslanie Heartbeat paketu, nazývaného žiadosť, príjemcovi. Po prijatí prijímateľ skonštruuje paket predstavujúci odpoveď a odošle ho odosielateľovi. Správa HeartbeatResponse by mala niesť obsah zhodný so žiadosťou a svoju vlastnú náhodnú výplň. Zraniteľnosť je spôsobená kódom, ktorý nesprávne validuje vstupy pri kopírovaní dát z privátnej pamäte do odchádzajúceho paketu. Obsah žiadosti sa kopíruje do paketu odpovede, no veľkosť kopírovaného obsahu nie je určená jeho reálnou veľkosťou, ale veľkosťou zadanou odosielateľom. memcpy() teda skopíruje viac dát do paketu odpovedi ako je v pakete žiadosti. Začne kopírovaním obsahu paketu žiadosti, no postupne prekročí hranicu obsahu a začne kopírovať aj dáta uchovávané v pamäti nad ním. Práve táto pamäť môže obsahovať senzitívne používateľské informácie. Získané informácie sa spolu s obsahom prekopírujú do paketu odpovede a sú odoslané v HeartbeatResponse útočníkovi. Útočníkovi to umožňuje čítať dáta uložené v privátnej pamäti, ktoré mohli potenciálne zahŕňať aj dáta prenášané bezpečným kanálom a kryptografické tajomstvá.
 
 <p align="center">
-  <img src="https://github.com/dorota-fiit/bp-Heartbleed-attack-game/blob/main/heartbleed_topology.PNG" width="420">
+  <img src="https://github.com/dorota-fiit/bp-Heartbleed-attack-game/blob/main/heartbleed_attack.PNG" width="420px">
 </p>
 
 ## Zadanie
