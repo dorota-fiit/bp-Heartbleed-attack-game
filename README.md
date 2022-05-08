@@ -20,32 +20,59 @@ Po nainštalovaní prostredia si stiahnite repozitár do Vášho počítača. Ob
 3. Otvorte súbor **attack.py** a nájdite príkaz na odoslanie žiadosti `HeartbeatRequest` na zraniteľný server. Skúste žiadosť odoslať.
 
     <details><summary>Nápoveda</summary>
+    
+    ```
         ./attack.py www.heartbleedlabelgg.com
+    ```
+    
     </details>
 
 4. Odoslanie neprebehne keďže súbor nie je vykonateľný. Zmeňte teda súbor **attack.py** na vykonateľný. 
   
     <details><summary>Nápoveda</summary>
+    
+    ```
         sudo chmod +x attack.py
+    ```
+    
     </details>
   
 5. Znova odošlite škodlivý kód v podobe `HeartbeatRequest` na zraniteľný server.
  
    <details><summary>Nápoveda</summary>
+    
+    ```
       ./attack.py www.heartbleedlabelgg.com
+    ```
+    
     </details>
   
 6. V tomto momente vidíte v termináli vypísané informácie a obsah odpovede. Informácie obsahujú hlášku "Server processed malformed heartbeat, but did not return any extra data.". Na základe tohto zistenia je potrebné upraviť hodnotu zapísanú v poli veľkosti obsahu. Otvorte teda súbor **attack.py**, prejdite si znova kód, nájdite prepínač na zmenu dĺžky odpovede a jeho predvolenú hodnotu. 
  
    <details><summary>Nápoveda</summary>
-      Prepínače na zmenu dĺžky odpovede sú -l alebo --length. Ich predvolená veľkosť je 0x16.
+    
+    Prepínače na zmenu dĺžky odpovede sú: 
+    ```
+        -l / --length
+    ``` 
+    Ich predvolená veľkosť je:
+    ```
+        0x16
+    ``` 
+    
+    
     </details>
   
 7. Zmente dĺžku obsahu odpovede a skúste odoslať žiadosť na zraniteľný server. Odosielanie opakujte až kým nezískate osobné údaje používateľa (vrátane vlajky).
 
     <details><summary>Nápoveda</summary>
-        Prvou možnosťou je zmena default hodnoty priamo v kóde. Druhou možnosťou je obmienanie dĺžky pomocou prepínačov "-l" a "--length" priamo v termináli. Skúste odoslať žiadosť na zraniteľný server napríklad príkazom "./attack.py www.heartbleedlabelgg.com -l 0x4000". 
-      </details>
+    
+    Prvou možnosťou je zmena default hodnoty priamo v kóde. Druhou možnosťou je obmienanie dĺžky pomocou prepínačov  priamo v termináli. Skúste odoslať žiadosť na zraniteľný server napríklad príkazom: 
+    ```
+        ./attack.py www.heartbleedlabelgg.com -l 0x4000
+    ``` 
+       
+    </details>
   
 ## Zdroje
 https://web.ecs.syr.edu/~wedu/seed/Labs_12.04/Networking/Heartbleed/
