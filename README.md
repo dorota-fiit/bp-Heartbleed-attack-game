@@ -54,7 +54,7 @@ Po nainštalovaní prostredia si stiahnite repozitár do Vášho počítača. Ob
     
     </details>
   
-6. V tomto momente vidíte v termináli vypísané informácie a obsah odpovede. Informácie obsahujú hlášku "Server processed malformed heartbeat, but did not return any extra data.". Na základe tohto zistenia je potrebné upraviť hodnotu zapísanú v poli veľkosti obsahu. Otvorte teda súbor **attack.py**, prejdite si znova kód, nájdite prepínač na zmenu dĺžky odpovede a jeho predvolenú hodnotu. 
+6. V tomto momente vidíte v termináli vypísané informácie a obsah odpovede. Informácie obsahujú hlášku "Server processed malformed heartbeat, but did not return any extra data.". Na základe tohto zistenia je potrebné upraviť hodnotu zapísanú v poli veľkosti obsahu. Tá ovplyvňuje množstvo dát vrátených zo servera. Otvorte teda súbor **attack.py**, prejdite si znova kód, nájdite prepínač na zmenu dĺžky odpovede a jeho predvolenú hodnotu. 
  
    <details><summary>Nápoveda</summary>
     
