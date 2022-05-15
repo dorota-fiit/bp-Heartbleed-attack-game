@@ -18,7 +18,7 @@ do
 	fi
 done
 
-sleep 120
+sleep 240
 
 python3 /home/kali/interaction1.py
 python3 /home/kali/interaction2.py
