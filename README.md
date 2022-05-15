@@ -20,6 +20,8 @@ Keďže ide o hru Attack-only, hráč má za úlohu získať vlajku zo zraniteľ
 Hra je spustiteľná v prostredí nástroja KYPO Cyber Sandbox Creator. Pri inštalácii nástroja prosím postupujte podľa nasledujúceho návodu -  https://gitlab.ics.muni.cz/muni-kypo-csc/cyber-sandbox-creator/-/wikis/3.0/Installation. 
 
 Po nainštalovaní prostredia si stiahnite repozitár do Vášho počítača. Obsah vlajky je prednastavený na hodnotu "Insert body of the flag here." a pred vytváraním strojov je možné ho zmeniť podľa Vašich požiadaviek v súbore **muni-kypo_vms/user/interaction3.py**. Následne  vytvoríme virtuálne stroje - počítač útočníka (Vy) a používateľa. V termináli prejdite do priečinku **muni-kypo_vms** a zadajte príkaz `create-sandbox --provisioning-dir .\provisioning attack_topology.yml`, ktorý vytvorí prechodnú definíciu sandboxu (priečinok **sandbox**). Následne prejdite do priečinku **sandbox** a zadajte príkaz na vytvorenie virtuálnych strojov - `manage-sandbox build`. Vo VirtualBoxe sa postupne vytvoria stroje: router, attacker a user. Dôležité je vytvoriť aj server. Nakoniec v termináli prejdite do priečinku **vagrant_server** a zadajte príkaz `vagrant up`. Týmto príkazom sa Vám vo VirtualBoxe vytvorí virtuálny stroj servera. Pozor! Stroj sa po vytvorení nepripojí do požadovanej siete a pre to je ho nutné reštartovať. Vo VirtualBox okne virtuálneho stroja kliknite v menu na "Machine" a vyberte možnosť "Reset". Stroj musí byť reštartovaný IHNEĎ po vytvorení, keďže sú zapnuté časovače na hru a zabezpečenie. 
+### Možné komplikácie 
+Pri vytváraní KYPO virtuálnych strojov sa môže objaviť problém s konfiguráciou. Ide o problém kedy stiahnuté skripty obsahujú Windows EOL znaky namiesto Unix EOL znakov a tak ich virtuálne stroje vybavené operačnými systémami Linux nedokážu prečítať. Jednoduchým riešením je otvorenie skriptov v programe Notepad++ a v menu v sekcii " Edit" zmeniť atribút " EOL Conversion" na " Unix(LF)" . Po upravení skriptov je nutné zničiť aktuálny sandbox a zopakovať postup vytvárania.
 ## Riešenie
 1. Do počítača útočníka sa prihláste pomocou mena "kali" a hesla "kali".
 2. Zapnite terminál a prejdite do priečinka **home/kali**.\
@@ -82,5 +84,12 @@ Po nainštalovaní prostredia si stiahnite repozitár do Vášho počítača. Ob
     </details>
   
 ## Zdroje
-https://web.ecs.syr.edu/~wedu/seed/Labs_12.04/Networking/Heartbleed/
+Masaryk University Institute of Computer Science. Cyber Sandbox Creator. 2022. url: https://gitlab.ics.muni.cz/muni-kypo-csc/cyber-sandbox-creator/-/wikis/home .
+
+Zakir Durumeric et al. The Matter of Heartbleed. Association for Computing Machinery, 2014. isbn: 9781450332132. doi: 10.1145/2663716.2663755. url: https://urldefense.proofpoint.com/v2/url?u=https-3A__doi.org_10.1145_2663716.2663755&d=DwIFAg&c=jf_iaSHvJObTbx-siA1ZOg&r=19WVqXa7I3kFxIpCAuKguzcCSulPwXh0dReURgQWpyg&m=SMpSbN1j05IjdcUQw4dlOHPsVYDbN8T1WlbMrZ1UVzLHxd9wfcLGAgJB5W1JXh9N&s=lc0KtGngLoLnXqgGJl50Cc4eMCflTatKsdPKWRyXG0M&e= .
+
+Inc. Synopsys. The Heartbleed Bug. 2020. url: https://urldefense.proofpoint.com/v2/url?u=https-3A__heartbleed.com_&d=DwIFAg&c=jf_iaSHvJObTbx-siA1ZOg&r=19WVqXa7I3kFxIpCAuKguzcCSulPwXh0dReURgQWpyg&m=SMpSbN1j05IjdcUQw4dlOHPsVYDbN8T1WlbMrZ1UVzLHxd9wfcLGAgJB5W1JXh9N&s=cwZ3INyuWzzNhtEsE7aNniFwvMriq7MQMXgp2PE7wtM&e= .
+
+Du Wenliang. Computer Internet Security: A Hands-on Approach. Lightning Source Inc., 2019. isbn: 978-1-7330-0393-3. url: https://urldefense.proofpoint.com/v2/url?u=https-3A__www.enbook.sk_&d=DwIFAg&c=jf_iaSHvJObTbx-siA1ZOg&r=19WVqXa7I3kFxIpCAuKguzcCSulPwXh0dReURgQWpyg&m=SMpSbN1j05IjdcUQw4dlOHPsVYDbN8T1WlbMrZ1UVzLHxd9wfcLGAgJB5W1JXh9N&s=hQY6WygJVoOURVIUEmWS2G4QDXvF0OMFeXFrxv1EHgc&e=catalog/product/view/id/4801062?gclid=CjwKCAiAv_KMBhAzEiwAs-rX1GuONVgRMUF5r7JbXU89MGGcvPBl8cl9LP4CrdF92AtAZNcy2EEhvhoCN9wQAvDBwE .
+
 
